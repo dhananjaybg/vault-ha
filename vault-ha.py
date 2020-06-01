@@ -7,7 +7,7 @@ import re
 from io import BytesIO
 
 cluster_tokens = {}
-vault_clusters = ["localhost", "vault2"]
+vault_clusters = ["vault-west", "vault-central", "vault-east"]
 
 def get_secret():
 

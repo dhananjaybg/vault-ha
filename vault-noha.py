@@ -15,17 +15,17 @@ def get_secret():
     with open("tokens_mem", "r") as fh_:
         cluster_token = json.load(fh_)
 
-    if "localhost" not in cluster_token:
-        if not get_token("localhost"):
+    if "vault-west" not in cluster_token:
+        if not get_token("vault-west"):
             return "Unable to Retrieve Token"
 
-    secret = vault_call("localhost", "get")
+    secret = vault_call("vault-west", "get")
 
     if secret == "Connection Failed":
         return "Unable to Retrieve Secret"
     elif secret == 403:
-        if get_token("localhost"):
-            secret = vault_call("localhost", "get")
+        if get_token("vault-west"):
+            secret = vault_call("vault-west", "get")
         else:
             return "Unable to Retrieve Secret"
     elif secret == 404:
