@@ -62,7 +62,7 @@ def vault_call(vserv, vact):
         login_data = json.dumps({"role_id": role_id, "secret_id": sec_id})
         crl.setopt(crl.POSTFIELDS, login_data)
     elif vact == "get":
-        vault_url = base_url + "vaultron-kv-v2/data/myapp"
+        vault_url = base_url + "secrets/data/myapp"
         vault_header = ["X-Vault-Token: " + cluster_token[vserv]]
         crl.setopt(crl.HTTPHEADER, vault_header)
     else:
