@@ -7,7 +7,7 @@ import re
 from io import BytesIO
 
 cluster_tokens = {}
-vault_clusters = ["vault-west", "vault-east"]
+vault_clusters = ["vault-east", "vault-west"]
 
 def get_secret():
 
@@ -19,18 +19,26 @@ def get_secret():
     for vserv in vault_clusters:
         if vserv not in cluster_tokens:
             if not get_token(vserv):
-                continue
+                if vserv != vault_clusters[-1]:
+                    continue
+                else:
+                    return "Unable to Retrieve Token"
             else:
                 break
         else:
             break
 
     for vserv in vault_clusters:
-
-        secret = vault_call(vserv, "get")
+        if vserv in cluster_tokens:
+            secret = vault_call(vserv, "get")
+        else:
+            continue
 
         if secret == "Connection Failed":
-            continue
+            if vserv != vault_clusters[-1]:
+                continue
+            else:
+                return "Unable to Retrieve Secret"
         elif secret == 403:
             if get_token(vserv):
                 secret = vault_call(vserv, "get")
